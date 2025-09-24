@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <div class="productdetail-container max-w-auto">
+      <div class="productdetail sm:px-20 px-2 py-10 poppins">
+        <div class="heading poppins text-4xl font-semibold">
+          Product Details
+        </div>
+
+        <div
+          class="productdetail-cards py-10 md:px-10 px-5 flex flex-col gap-8"
+        >
+          <!-- ------ productdetail-1 -->
+
+          <div
+            class="productdetail-card lg:w-[800px] md:w-[600px] max-w-auto m flex md:flex-row flex-col border border-[#d4af37]"
+          >
+            <div
+              class="product-img lg:w-[300px] md:w-[200px] flex justify-center"
+            >
+              <img
+                src="<%=  product.image  %>"
+                alt="<%= product.name %>"
+                class="object-cover"
+              />
+            </div>
+            <div
+              class="productdetails-content lg:w-[500px] md:w-[400px] w-[100%] bg-charcolblack flex flex-col gap-4 justify-between md:py-10 md:px-10 py-5 px-5"
+            >
+              <div class="content text-ivorywhite flex gap-4 w-full">
+                <div
+                  class="content text-ivorywhite flex sm:flex-row flex-col gap-4 w-full sm:pb-0 pb-3"
+                >
+                  <!-- only right border here -->
+                  <div
+                    class="content-1 lg:text-[16px] sm:text-[16px] flex flex-col gap-1 sm:border-r border-ivorywhite sm:p-[10px] p-[5px]"
+                  >
+                    <span><%= product.name %></span>
+                    <span>Category: <%= product.category %> </span>
+                    <span>Price: Rs <%= product.price %> </span>
+                  </div>
+
+                  <span
+                    class="border border-ivorywhite sm:hidden block w-full"
+                  ></span>
+
+                  <!-- no border here -->
+                  <div
+                    class="content-2 lg:text-[16px] sm:text-[16px] flex flex-col gap-1 sm:p-[10px] p-[5px]"
+                  >
+                    <span>Discount: Rs <%= product.discount %> </span>
+                    <span
+                      >Total: Rs <%= (Number(product.quantity) || 1) *
+                      (Number(product.price) - Number(product.discount)) %>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="cta md:px-5 px-2">
+                <button
+                  onclick="addToCart('<%= product._id %>')"
+                  class="ajax-link addtocart-btn hover:text-inherit w-full flex justify-between cursor-pointer items-center bg-golden text-charcolblack p-2"
+                >
+                  <span class="lg:text-[18px] sm:text-[16px] font-semibold">
+                    Add To Cart
+                  </span>
+                  <span><img src="/images/imgs/cart.svg" alt="" /></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="md:px-10 px-5">
+          <button
+            onclick="goBackToProducts()"
+            class="bg-charcolblack text-ivorywhite py-2 px-5 poppins  font-medium"
+          >
+            Back to Products
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="/javascripts/cart.js"></script>
+    <script src="/javascripts/routing.js"></script>
+  </body>
+</html>

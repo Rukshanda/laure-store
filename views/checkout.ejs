@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <% if (error && error.length > 0) { %>
+    <div
+      class="flash-message absolute top-[8rem] sm:top-[5rem] left-[90%] sm:left-[60%] -translate-x-1/2 -translate-y-1/2 p-3 w-[80%] sm:w-[20%] text-center bg-red-500 text-white"
+    >
+      <%= error %>
+    </div>
+    <% } %> <% if (success && success.length > 0) { %>
+    <div
+      class="flash-message absolute top-[8rem] sm:top-[5rem] left-[90%] sm:left-[60%] -translate-x-1/2 -translate-y-1/2 p-3 w-[80%] sm:w-[20%] text-center bg-green-500 text-white"
+    >
+      <%= success %>
+    </div>
+    <% } %>
+
+    <div class="checkout max-w-auto py-20">
+      <div
+        class="flex md:flex-row flex-col md:h-screen h-full border border-[#1c1c1c]"
+      >
+        <div
+          class="checkout-container xl:px-20 sm:px-10 px-5 py-20 md:w-[50%] w-full"
+        >
+          <div class="flex flex-col gap-10">
+            <div class="heading">
+              <p class="text-4xl font-bold poppins">Checkout</p>
+            </div>
+            <div class="checkout-form xl:w-[80%] w-full">
+              <!-- ✅ EVERYTHING inside the form now -->
+              <form
+                action="/placeorder"
+                method="post"
+                class="flex flex-col gap-4 pl-3"
+              >
+                <!-- Email -->
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Enter Your Email"
+                  class="p-4 border border-[#d4af37] placeholder-[#1c1c1c] outline-none"
+                  required
+                />
+
+                <!-- Phone -->
+                <input
+                  type="number"
+                  name="contact"
+                  placeholder="Enter Your Phone Number"
+                  class="p-4 border border-[#d4af37] placeholder-[#1c1c1c] outline-none"
+                  required
+                />
+
+                <!-- Address -->
+                <input
+                  type="text"
+                  name="address"
+                  placeholder="Enter Your Address"
+                  class="p-4 border border-[#d4af37] placeholder-[#1c1c1c] outline-none"
+                  required
+                />
+
+                <!-- Payment Method -->
+                <p class="font-medium poppins text-2xl pt-5 pb-5">
+                  Payment Method
+                </p>
+                <div class="flex flex-col gap-4">
+                  <!-- CREDIT CARD OPTION -->
+                  <label
+                    for="credit"
+                    class="payment-option cursor-pointer p-4 flex justify-between items-center border border-[#d4af37]"
+                  >
+                    <span>Credit Card</span>
+                    <img src="/images/imgs/credit.svg" alt="Credit Card" />
+                    <input
+                      type="radio"
+                      id="credit"
+                      name="paymentMethod"
+                      value="credit"
+                      class="hidden"
+                      required
+                    />
+                  </label>
+
+                  <!-- CASH ON DELIVERY OPTION -->
+                  <label
+                    for="cash"
+                    class="payment-option cursor-pointer p-4 flex justify-between items-center border border-[#d4af37]"
+                  >
+                    <span>Cash on Delivery</span>
+                    <img src="/images/imgs/money.svg" alt="Cash" />
+                    <input
+                      type="radio"
+                      id="cash"
+                      name="paymentMethod"
+                      value="cash"
+                      class="hidden"
+                      required
+                    />
+                  </label>
+
+                  <!-- SUBMIT BUTTON -->
+                  <button
+                    type="submit"
+                    class="my-4 placeorder-btn p-4 flex justify-between items-center border border-[#1c1c1c] bg-golden text-ivorywhite font-bold text-xl"
+                  >
+                    <span>Place Your Order</span>
+                    <img src="/images/imgs/placeorder.svg" alt="Place Order" />
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- ORDER SUMMARY -->
+        <div
+          class="order-summary-container xl:px-20 sm:px-10 px-5 py-20 bg-charcolblack md:w-[50%] w-full flex flex-col gap-10"
+        >
+          <div class="heading">
+            <p class="text-ivorywhite text-4xl font-bold poppins">
+              Order Summary
+            </p>
+          </div>
+          <div
+            class="order-sumary-cards poppins text-ivorywhite xl:text-[18px] sm:text-[16px] text-[14px] flex gap-5 font-medium xl:w-[90%] w-full flex-col"
+          >
+            <% if (orderItems.length > 0) { %> <% orderItems.forEach((item) => {
+            %>
+            <div
+              class="card p-4 border flex flex-row border-[#d4af37] w-full items-center gap-5 justify-between sm:justify-normal lg:gap-10 sm:gap-5"
+            >
+              <!-- Product Image -->
+              <div class="bg-golden sm:w-[80px] sm:h-[80px] w-[60px] h-[60px]">
+                <img
+                  src="<%= item.image %>"
+                  alt="<%= item.name %>"
+                  class="object-contain sm:w-[80px] sm:h-[80px] w-[60px] h-[60px]"
+                />
+              </div>
+
+              <span><%= item.name %></span>
+              <span> Rs <%= item.total %> </span>
+              <span class="order-quantity">Qty: <%= item.quantity %></span>
+
+              <button class="remove-item-btn" data-id="<%= item.id %>">
+                <img
+                  src="/images/imgs/cross.svg"
+                  alt="Remove"
+                  class="sm:w-[25px] sm:h-[25px] w-[20px] h-[20px]"
+                />
+              </button>
+            </div>
+            <% }); %> <% } else { %>
+            <p class="text-red-500 font-bold">No items in checkout.</p>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const paymentOptions = document.querySelectorAll(".payment-option");
+
+        paymentOptions.forEach((option) => {
+          option.addEventListener("click", () => {
+            // Remove golden background from all
+            paymentOptions.forEach((opt) => {
+              opt.classList.remove("bg-golden-card", "text-ivorywhite-card");
+            });
+
+            // Add golden background to selected
+            option.classList.add("bg-golden-card", "text-ivorywhite-card");
+
+            // Check the hidden radio button
+            const radio = option.querySelector("input[type='radio']");
+            if (radio) radio.checked = true;
+          });
+        });
+      });
+    </script>
+    <script src="/javascripts/checkout.js"></script>
+  </body>
+</html>

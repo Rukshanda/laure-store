@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head') %>
+
+  <body>
+    <% if (success.length > 0) { %>
+    <div
+      class="flash-message absolute top-[8rem] sm:top-[5rem] left-[90%] sm:left-[60%] -translate-x-1/2 -translate-y-1/2 p-3 w-[80%] sm:w-[20%] text-center bg-green-500 text-white"
+    >
+      <% success.forEach(msg => { %>
+      <p><%= msg %></p>
+      <% }) %>
+    </div>
+    <% } %>
+
+    <!-- ---- products -nav -->
+    <div class="dropdown-container">
+      <div
+        class="flex gap-5 sm:px-20 px-3 bg-charcolblack py-4 text-ivorywhite my-4"
+      >
+        <div class="ui dropdown">
+          <div class="text text-[16px] font-bold poppins">Sort By</div>
+          <i class="dropdown icon text-golden"></i>
+          <div class="menu !rounded-[0px] !bg-ivorywhite !text-charcolblack">
+            <div class="item !text-[16px] text-[#1c1c1c]">
+              <a
+                href="/products?badge=Popular"
+                class="filter-link hover:bg-transparent hover:text-[#1c1c1c]"
+              >
+                Popular
+              </a>
+            </div>
+            <div class="item !text-[16px] text-[#1c1c1c]">
+              <a
+                href="/products?badge=New"
+                class="filter-link hover:bg-transparent hover:text-[#1c1c1c]"
+              >
+                New
+              </a>
+            </div>
+            <div class="item !text-[16px] text-[#1c1c1c]">
+              <a
+                href="/products"
+                class="filter-link hover:bg-transparent hover:text-[#1c1c1c]"
+                >Show All</a
+              >
+            </div>
+          </div>
+        </div>
+        <div class="ui dropdown">
+          <div class="text text-[16px] font-bold poppins">Cateogry</div>
+          <i class="dropdown icon text-golden"></i>
+          <div class="menu !rounded-[0px] !bg-ivorywhite !text-charcolblack">
+            <div class="item !text-[16px] text-[#1c1c1c]">
+              <a
+                href="/products?category=Blazer"
+                class="filter-link hover:bg-transparent hover:text-[#1c1c1c]"
+              >
+                Blazer
+              </a>
+            </div>
+            <div class="item !text-[16px] text-[#1c1c1c]">
+              <a
+                href="/products?category=Summer Wears"
+                class="filter-link hover:bg-transparent hover:text-[#1c1c1c]"
+              >
+                Summer Wears
+              </a>
+            </div>
+            <div class="item !text-[16px] text-[#1c1c1c]">
+              <a
+                href="/products"
+                class="filter-link hover:bg-transparent hover:text-[#1c1c1c]"
+                >Show All</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- --- Products -->
+    <div
+      class="products-container max-w-auto sm:px-3 custom2:px-20 px-[5px] py-20"
+    >
+      <div class="w-full">
+        <div
+          class="products flex flex-wrap gap-2 custom:gap-3 items-center w-full"
+        >
+          <% if (products.length > 0) { %> <%
+          products.forEach(function(product){ %>
+          <!-- ------------ -->
+          <div
+            class="product border-2 relative border-solid border-[#d4af37] mb-5 float custom3:w-[48%] custom:w-[48%] md:w-[32%] custom2:w-[28%] xl:w-[24%] 2xl:w-[18%]"
+          >
+            <div class="product-card">
+              <div class="flex justify-center">
+                <img
+                  src="<%= product.image%>"
+                  class="w-[200px] h-[240px] custom:h-[345px] custom:w-[280px]"
+                  alt="<%= product.name %>"
+                />
+              </div>
+              <div
+                class="product-detail poppins flex justify-between items-center bg-charcolblack text-ivorywhite p-5"
+              >
+                <div class="text-detail">
+                  <p class="name text-[14px] custom:text-[18px]">
+                    <%= product.name.length > 7 ? product.name.substring(0, 7) +
+                    ".." : product.name %>
+                  </p>
+                  <div class="price text-[14px] custom:text-[18px]">
+                    Rs <%= product.price %>
+                  </div>
+                </div>
+                <div
+                  class="addtocart-btn w-[26px] h-[26px] custom:w-[35px] custom:h-[35px]"
+                >
+                  <div class="bg-golden p-2 custom:p-3 cursor-pointer">
+                    <button
+                      onclick="addToCart('<%= product._id %>')"
+                      class="ajax-link"
+                    >
+                      <img src="/images/imgs/plus.svg" alt="add to cart" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="detail-button bg-golden text-charcolblack font-medium poppins [500px]:text-[18px] text-[16px] text-center p-2"
+              >
+                <button
+                  onclick="loadProductDetail('<%= product._id %>')"
+                  class="w-full cursor-pointer"
+                >
+                  See Details
+                </button>
+              </div>
+            </div>
+            <div
+              class="badge absolute bg-golden text-charcolblack px-4 py-1 poppins [500px]:text-[15px] text-[14px] font-semibold top-[4%] sm:left-[65%] custom:left-[56%] left-[5%]"
+            >
+              <span><%= product.badge || "New" %></span>
+            </div>
+          </div>
+          <% }) %> <% } else { %>
+          <div class="w-full text-center py-10">
+            <p class="text-xl font-semibold text-gray-500">
+              No products available
+            </p>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <!-- Semantic JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/semantic.min.js"></script>
+
+ <script>
+ $(document).ready(function () {
+  $(".ui.dropdown").dropdown({
+    action: "nothing", 
+    selectOnKeydown: false
+  });
+});
+
+</script>
+    <script src="/javascripts/routing.js"></script>
+  </body>
+</html>

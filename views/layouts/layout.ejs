@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+<body>
+  <!-- Header / Navbar -->
+  <%- include('../partials/header') %>
+
+  <!-- Main dynamic content -->
+  <main id="main-content">
+    <%- body %>
+  </main>
+
+  <!-- Footer -->
+  <%- include('../partials/footer') %>
+
+  <!-- Global Scripts -->
+  <script src="/javascripts/routing.js"></script>
+   <script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("form").forEach((form) => {
+    form.addEventListener("submit", (e) => {
+      // Automatically mark as AJAX before submitting
+      const hiddenInput = document.createElement("input");
+      hiddenInput.type = "hidden";
+      hiddenInput.name = "_ajax";
+      hiddenInput.value = "true";
+      form.appendChild(hiddenInput);
+    });
+  });
+});
+</script>
+
+</body>
+</html>
