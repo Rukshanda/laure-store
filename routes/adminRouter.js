@@ -9,10 +9,14 @@ const productsModel = require("../models/productsModel");
 
 // Render login page
 router.get("/create", (req, res) => {
+  // Detect if AJAX request
+   const isAjax = req.xhr || req.headers["x-requested-with"] === "XMLHttpRequest";
+
+
   res.render("adminlogin", {
     success: req.flash("success"),
     error: req.flash("error"),
-    layout: res.locals.isAjax ? false : "layouts/layout"
+    layout: isAjax ? false : "layouts/layout"
   });
 });
 
@@ -42,7 +46,7 @@ router.post("/create", async (req, res) => {
     return res.render("addproduct", {
       success: req.flash("success"),
       token,
-      layout: res.locals.isAjax ? false : "layouts/layout"
+      layout: isAjax ? false : "layouts/layout"
     });
   } catch (err) {
     console.error(err);
@@ -53,35 +57,47 @@ router.post("/create", async (req, res) => {
 
 // Add Product Page
 router.get("/addproduct", isAdmin, (req, res) => {
+  // Detect if AJAX request
+   const isAjax = req.xhr || req.headers["x-requested-with"] === "XMLHttpRequest";
+
+
   res.render("addproduct", {
-    layout: res.locals.isAjax ? false : "layouts/layout"
+    layout: isAjax ? false : "layouts/layout"
   });
 });
 
 // View All Products
 router.get("/allproducts", isAdmin, async (req, res) => {
+  // Detect if AJAX request
+   const isAjax = req.xhr || req.headers["x-requested-with"] === "XMLHttpRequest";
+
+
   try {
     const products = await productsModel.find();
     res.render("allproducts", {
       products,
       success: req.flash("success"),
       error: req.flash("error"),
-      layout: res.locals.isAjax ? false : "layouts/layout"
+      layout: isAjax ? false : "layouts/layout"
     });
   } catch (error) {
     console.error(error);
     req.flash("error", "Failed to load products");
     res.render("allproducts", {
       products: [],
-      layout: res.locals.isAjax ? false : "layouts/layout"
+      layout: isAjax ? false : "layouts/layout"
     });
   }
 });
 
 // View All Users
 router.get("/allusers", isAdmin, (req, res) => {
+  // Detect if AJAX request
+   const isAjax = req.xhr || req.headers["x-requested-with"] === "XMLHttpRequest";
+
+
   res.render("allusers", {
-    layout: res.locals.isAjax ? false : "layouts/layout"
+    layout: isAjax ? false : "layouts/layout"
   });
 });
 
